@@ -21,12 +21,14 @@ class Reporter:
         payload,
     ):
         def on_connect_fn(client, userdata, flags, reason_code, properties):
-            client.publish(topic, payload)
+            log.info(f"Connected")
         client = mqtt.Client(callback_api_version = mqtt.CallbackAPIVersion.VERSION2)
         try:
             log.info(f"Connecting to {self.addr}:{self.port}")
             client.on_connect = on_connect_fn
             client.connect(self.addr, self.port)
+            client.publish(topic, payload)
+            log.info(f"Published: {topic}: {payload}")
             client.disconnect()
         except Exception as e:
             log.exception(e)
@@ -43,7 +45,6 @@ class Reporter:
             topic,
             json.dumps(payload),
         )
-        log.info(f"Published: {server_state}")
 
     def publish_core_server_state(
         self,
@@ -57,4 +58,3 @@ class Reporter:
             topic,
             json.dumps(payload),
         )
-        log.info(f"Published: {server_state}")
