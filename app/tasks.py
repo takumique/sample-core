@@ -1,6 +1,15 @@
 import os
+
 from celery import Celery
 
+from reporter import Reporter
+
+
+REPORTER_ADDR = os.environ['REPORTER_ADDR']
+REPORTER_PORT = int(os.environ['REPORTER_PORT'])
+
+reporter = Reporter(REPORTER_ADDR, REPORTER_PORT)
+reporter.publish_core_server_state("UP")
 
 REDIS_DNS_NAME = os.environ['REDIS_DNS_NAME']
 REDIS_PORT = os.environ['REDIS_PORT']

@@ -1,2 +1,3 @@
 celery==5.5.3
 Redis==6.2.0
+paho-mqtt==2.1.0
